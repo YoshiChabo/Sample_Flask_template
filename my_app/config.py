@@ -31,7 +31,6 @@ import os
 import urllib
 class ProductionConfig(Config):
     # 本番環境用の設定
-    
     # 環境変数から取得（設定されていない場合のデフォルト値を右側に記述）
     db_user     = os.environ.get("DB_USER", "tea-mountain")
     db_password = urllib.parse.quote_plus(os.environ.get("DB_PASSWORD", "Chaboful5!")) # パスワードに含まれる特殊文字をエンコード
