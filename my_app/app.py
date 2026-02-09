@@ -1,0 +1,53 @@
+# ==================================================
+# 起動用のファイル
+# 以下の設定を行う
+# ・ユーザ管理を行うflask_login
+# ・DB構成管理を行うflask_migrate
+# ・flaskのモジュール分割を可能にするblueprint
+# ==================================================
+from flask import Flask
+from flask_migrate import Migrate
+from .models import db, User
+from flask_login import LoginManager
+# ▼▼▼ Blueprintのモジュールをインポート ▼▼▼
+from .auth.views import auth_bp
+from .memo.views import memo_bp
+from .wiki.views import wiki_bp
+
+# ==================================================
+# Flask
+# ==================================================
+app = Flask(__name__)
+# 設定ファイル読み込み、config.pyモジュールのConfigクラスを読み込む
+# 実行ディレクトリからのパスを記述する必要があることに注意
+app.config.from_object("my_app.config.DevelopmentConfig")
+# dbとFlaskとの紐づけ
+db.init_app(app)
+# マイグレーションとの紐づけ（Flaskとdb）
+migrate = Migrate(app, db)
+# LoginManagerインスタンス
+login_manager = LoginManager()
+# LoginManagerとFlaskとの紐づけ
+login_manager.init_app(app)
+# ログインが必要なページにアクセスしようとしたときに表示されるメッセージを変更
+login_manager.login_message = "認証していません：ログインしてください"
+# 未認証のユーザーがアクセスしようとした際に
+# リダイレクトされる関数名を設定する(ブループリント対応)
+login_manager.login_view = 'auth.login'
+# blueprintをアプリケーションに登録
+app.register_blueprint(auth_bp)
+app.register_blueprint(memo_bp)
+app.register_blueprint(wiki_bp)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# viewsのインポート
+from .views import *
+
+# ==================================================
+# 実行
+# ==================================================
+if __name__ == "__main__":
+    app.run()
