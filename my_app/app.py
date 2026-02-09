@@ -15,7 +15,7 @@ from .memo.views import memo_bp
 from .wiki.views import wiki_bp
 
 # ==================================================
-# Flask
+# Flaskあ
 # ==================================================
 app = Flask(__name__)
 # 設定ファイル読み込み、config.pyモジュールのConfigクラスを読み込む
