@@ -33,10 +33,10 @@ class ProductionConfig(Config):
     # 本番環境用の設定
     
     # 環境変数から取得（設定されていない場合のデフォルト値を右側に記述）
-    db_user     = os.environ.get("DB_USER", "tea-mountain")
-    db_password = urllib.parse.quote_plus(os.environ.get("DB_PASSWORD", "Chaboful5!")) # パスワードに含まれる特殊文字をエンコード
-    db_server   = os.environ.get("DB_SERVER", "webappstest-yoshi.database.windows.net")
-    db_name     = os.environ.get("DB_NAME", "free-sql-db-2798562")
+    db_user     = os.environ.get("DB_USER")
+    db_password = urllib.parse.quote_plus(os.environ.get("DB_PASSWORD")) # パスワードに含まれる特殊文字をエンコード
+    db_server   = os.environ.get("DB_SERVER")
+    db_name     = os.environ.get("DB_NAME")
     
     # 接続URIの組み立て
     SQLALCHEMY_DATABASE_URI = f"mssql+pymssql://{db_user}:{db_password}@{db_server}:1433/{db_name}"

@@ -15,12 +15,12 @@ from .memo.views import memo_bp
 from .wiki.views import wiki_bp
 
 # ==================================================
-# Flaskあ
+# Flask
 # ==================================================
 app = Flask(__name__)
 # 設定ファイル読み込み、config.pyモジュールのConfigクラスを読み込む
 # 実行ディレクトリからのパスを記述する必要があることに注意
-app.config.from_object("my_app.config.ProductionConfig")
+app.config.from_object("my_app.config.DevelopmentConfig")
 # dbとFlaskとの紐づけ
 db.init_app(app)
 # マイグレーションとの紐づけ（Flaskとdb）
