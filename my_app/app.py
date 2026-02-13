@@ -18,14 +18,14 @@ from .wiki.views import wiki_bp
 app = Flask(__name__)
 # 設定ファイル読み込み、config.pyモジュールのConfigクラスを読み込む
 # Note: 実行ディレクトリからのパスを記述する必要があることに注意
-app.config.from_object("my_app.config.DevelopmentConfig")
+app.config.from_object("my_app.config.ProductionConfig")
 # dbとFlaskとの紐づけ
 db.init_app(app)
 # マイグレーションとの紐づけ（Flaskとdb）
 migrate = Migrate(app, db)
 # LoginManagerインスタンス
 login_manager = LoginManager()
-# LoginManagerとFlaskとの紐づけa
+# LoginManagerとFlaskとの紐づけ
 login_manager.init_app(app)
 # ログインが必要なページにアクセスしようとしたときに表示されるメッセージを変更
 login_manager.login_message = "認証していません：ログインしてください"
