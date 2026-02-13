@@ -1,5 +1,6 @@
 # ==================================================
-# 設定
+# config.py
+# Flaskの動作設定のクラスを作成する
 # app.pyで読み込むクラスを指定する
 # 開発用や本番用といったサブクラスを作ることで、環境ごとの設定の差分だけを管理可能
 # ==================================================
@@ -7,7 +8,8 @@ class Config(object):
     # 環境共通の設定
     # デバッグモード
     DEBUG=False
-    # CSRFやセッションで使用（イテレーション02で追加）
+    # CSRFやセッションで使用
+    # ToDo: 環境変数から設定できるように変更する
     SECRET_KEY = "secret-key"
     # 警告対策
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -25,18 +27,17 @@ class Config(object):
 class DevelopmentConfig(Config):
     # 開発環境用の設定
     DEBUG = True
+    # ローカル開発環境用のSQLite
     SQLALCHEMY_DATABASE_URI = 'sqlite:///development.sqlite'
 
 import os
 import urllib
 class ProductionConfig(Config):
     # 本番環境用の設定
-    
-    # 環境変数から取得（設定されていない場合のデフォルト値を右側に記述）
-    db_user     = os.environ.get("DB_USER")
-    db_password = urllib.parse.quote_plus(os.environ.get("DB_PASSWORD")) # パスワードに含まれる特殊文字をエンコード
-    db_server   = os.environ.get("DB_SERVER")
-    db_name     = os.environ.get("DB_NAME")
-    
+    # 環境変数から取得（パスワードなどは直書きしないこと）
+    db_user     = os.environ.get("DB_USER", "")
+    db_password = urllib.parse.quote_plus(os.environ.get("DB_PASSWORD", "")) # パスワードに含まれる特殊文字をエンコード
+    db_server   = os.environ.get("DB_SERVER", "")
+    db_name     = os.environ.get("DB_NAME", "")
     # 接続URIの組み立て
     SQLALCHEMY_DATABASE_URI = f"mssql+pymssql://{db_user}:{db_password}@{db_server}:1433/{db_name}"

@@ -1,11 +1,11 @@
+# ==================================================
+# forms.py
+# ==================================================
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Length, ValidationError
 from .models import Memo, User
 
-# ==================================================
-# Formクラス
-# ==================================================
 # メモ用入力クラス
 class MemoForm(FlaskForm):
     # タイトル
@@ -25,7 +25,6 @@ class MemoForm(FlaskForm):
             raise ValidationError(f"タイトル '{title.data}' は既に存在します。\
                                     別のタイトルを入力してください。")
 
-# ▼▼▼ リスト 11-2の追加 ▼▼▼
 # ログイン用入力クラス
 class LoginForm(FlaskForm):
     username = StringField('ユーザー名：', 
@@ -55,13 +54,10 @@ class SignUpForm(LoginForm):
         user = User.query.filter_by(username=username.data).first()
         if user:
             raise ValidationError('そのユーザー名は既に使用されています')
-# ▲▲▲ リスト 11-2の追加 ▲▲▲
 
-# ▼▼▼ リスト 14-6の追加 ▼▼▼
 # Wiki用入力クラス
 class WikiForm(FlaskForm):
     # タイトル
     keyword = StringField('検索ワード：', render_kw={"placeholder": "入力してください"})
     # ボタン
     submit = SubmitField('Wiki検索')
-# ▲▲▲ リスト 14-6の追加 ▲▲▲
