@@ -48,7 +48,7 @@ app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_port=1)
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# デバグ用
+# デバグ用あ
 from flask import request
 @app.before_request
 def log_request_info():
