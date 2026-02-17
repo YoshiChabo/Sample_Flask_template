@@ -41,3 +41,9 @@ class ProductionConfig(Config):
     db_name     = os.environ.get("DB_NAME", "")
     # 接続URIの組み立て
     SQLALCHEMY_DATABASE_URI = f"mssql+pymssql://{db_user}:{db_password}@{db_server}:1433/{db_name}"
+    
+    # Application Gatewayのドメイン名を設定
+    SERVER_NAME = os.environ.get("SERVER_NAME", "myapp.example.com")
+    
+    # 本番環境用のApplication rootの設定
+    APPLICATION_ROOT = "/kusatsu/RF"
